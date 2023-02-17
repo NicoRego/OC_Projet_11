@@ -1,24 +1,35 @@
-package com.nicorego.NHSEmergency;
+package com.nicorego.NHSEmergency.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
+import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@Table(name = "hospital")
 public class Hospital {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(name="name")
     private String name;
-    private String address;
+    
+    @Column(name="latitude")
     private Double latitude;
+    
+    @Column(name="longitude")
     private Double longitude;
-    private List<String> specialties;
+
+    @Column(name="free_beds")
+    private Integer freeBeds;
+
+    @ManyToMany
+    @JoinTable(name = "specialty",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    private List<Integer> specialties;
 
     // getters and setters
 
@@ -30,10 +41,6 @@ public class Hospital {
         return name;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
     public Double getLatitude() {
         return latitude;
     }
@@ -42,7 +49,11 @@ public class Hospital {
         return longitude;
     }
 
-    public List<String> getSpecialties() {
+    public Integer getFreeBeds() {
+        return freeBeds;
+    }
+
+    public List<Integer> getSpecialties() {
         return specialties;
     }
 
@@ -50,10 +61,6 @@ public class Hospital {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public void setLatitude(Double latitude) {
@@ -64,7 +71,11 @@ public class Hospital {
         this.longitude = longitude;
     }
 
-    public void setSpecialties(List<String> specialties) {
+    public void setFreeBeds(Integer freeBeds) {
+        this.freeBeds = freeBeds;
+    }
+
+    public void setSpecialties(List<Integer> specialties) {
         this.specialties = specialties;
     }
 

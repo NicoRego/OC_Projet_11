@@ -1,9 +1,13 @@
-package com.nicorego.NHSEmergency;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+package com.nicorego.NHSEmergency.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.nicorego.NHSEmergency.model.Hospital;
+
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
-   List<Hospital> findBySpecialtiesContaining(String specialty);
+
 }
+
+
