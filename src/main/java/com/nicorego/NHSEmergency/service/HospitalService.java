@@ -50,10 +50,10 @@ public class HospitalService {
     public Hospital getNearestHospital(Double latitude, Double longitude, Integer specialtyId) {
 
         // List for distance and free beds
-        ArrayList<Double> distanceHospitals = new ArrayList<Double>();
+        ArrayList<Double> distanceHospitals = new ArrayList<>();
 
         // Nearest hospital
-        Hospital nearestHospital = new Hospital();
+        Hospital nearestHospital;
 
         // Get hospitals by specialty
         List<Hospital> specialtyHospitals = findBySpecialtiesContaining(specialtyId);
@@ -62,8 +62,8 @@ public class HospitalService {
         List<Hospital> freeBedsHospitals = findByFreeBeds();
 
         // Get distance from latitude and longitude for each hospital in list
-        for (int i = 0; i < freeBedsHospitals.size(); i++) {
-            double dist = distanceHaversine(latitude, longitude, freeBedsHospitals.get(i).getLatitude(), freeBedsHospitals.get(i).getLongitude());
+        for (Hospital freeBedsHospital : freeBedsHospitals) {
+            double dist = distanceHaversine(latitude, longitude, freeBedsHospital.getLatitude(), freeBedsHospital.getLongitude());
             distanceHospitals.add(dist);
         }
 
@@ -93,10 +93,11 @@ public class HospitalService {
 
         try {
             String query =
-                "SELECT *\n" +
-                "FROM hospital\n" +
-                "INNER JOIN hospitals_specialties ON hospital.id = hospitals_specialties.hospital_id\n" +
-                "WHERE hospitals_specialties.specialty_id = specialty.id";
+                    """
+                            SELECT *
+                            FROM hospital
+                            INNER JOIN hospitals_specialties ON hospital.id = hospitals_specialties.hospital_id
+                            WHERE hospitals_specialties.specialty_id = specialty.id""";
             TypedQuery<Hospital> typedQuery = em.createQuery(query, Hospital.class);
             typedQuery.setParameter("specialtyId", "%" + specialtyId + "%");
 
