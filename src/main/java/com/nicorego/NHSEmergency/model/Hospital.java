@@ -3,7 +3,6 @@ package com.nicorego.NHSEmergency.model;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "hospital")
